@@ -7,4 +7,4 @@
 Detailed statistical analysis methods will be loaded later in future folders, but the minimal data in the csv's is sufficient to analyse the data. In brief, analysis of variance was performed using a linear model, and attention was paid to the normalcy or distribution of the data. Subsequent t.tests were performed as required, as either a Student's, kruskal's or welch's depending on the normalcy and distribution. 
 
 
-<img mg align="right" src="https://user-images.githubusercontent.com/13381429/234910208-41cf9df3-f32d-4db4-bd84-c43ef7a33257.jpg" width=20% height=20%>
+<img mg align="right" src="https://user-images.githubusercontent.com/13381429/234910208-41cf9df3-f32d-4db4-bd84-c43ef7a33257.jpg" width=10% height=10%>
