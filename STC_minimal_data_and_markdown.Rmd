@@ -1,0 +1,235 @@
+---
+title: "STC markdown"
+author: "KJ"
+date: '2023-04-25'
+output: html_document
+---
+
+Minimal data and markdown for STC data, Aitken et al, 2023. PLoS ONE
+This is the data to replicate study findings using methods for plotting. The utilized statistical methods in R will be loaded at a later date, or can be requested, but for the most part anova with post-hoc t.tests were performed. 
+
+For this work, the R version and the OS it is run on are listed here: 
+R version 4.2.2 (2022-10-31)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS High Sierra 10.13.6
+
+Version for other packages used in plotting and analysis:
+
+beeswarm_0.4.0  
+readr_2.1.4     
+rmarkdown_2.20      
+stats_4.2.2         
+tidyverse_2.0.0     
+tidyr_1.3.0         
+RColorBrewer_1.1-3  
+FactoMineR_2.7 
+dplyr_1.1.0       
+knitr_1.42          
+Hmisc_5.0-1
+data.table_1.14.8  
+robustbase_0.95-0       
+stats_4.2.2
+
+
+```{r}
+#Fig 1b
+library(beeswarm)
+library(RColorBrewer)
+library(readr)
+
+# upload data from github
+yap_scratch_wound <- read_csv("https://raw.githubusercontent.com/kjaitken/STC_repository/main/github%20datasets/yap_scratch_wound.csv")
+
+yapscr <-yap_scratch_wound 
+
+f <- ordered(yapscr$Group,levels = c("no scratch","scratch"), labels = c("No Scratch","Scratch"))
+
+boxplot(nucl.intens_per_well ~ f, data =yapscr,pch = 18, xlab = "",ylab = "Mean Farred Intensity",   col= "cadetblue2", ylim=c(1, 32000), boxwex = 0.6, labels= c("No Scratch", "Scratch"), alpha = 0.3)
+beeswarm(nucl.intens_per_well ~ f, data =yapscr, pch = 16, xlab = "", las = 2,cex.axis=1, ylab = "Mean Farred Intensity",col= "blueviolet", cex.lab = 0.5, add= TRUE)
+
+```
+
+
+```{r}
+#fig 1D and E composite
+
+#upload data from github: 
+scrPCR <- read_csv("https://raw.githubusercontent.com/kjaitken/STC_repository/main/github%20datasets/scrPCR.csv")
+View(scrPCR)
+#n=5 for first two groups, and n = 6 for the next two, because the RNA quality was not good for two samples - one in each of first two groups. 
+#remove NA's filling bottom rows (not sure why these were added on here)
+scrPCR<-scrPCR[1:22,]
+
+#graphing methods: 
+  
+f <- ordered(scrPCR$Group,levels = c("no scratch veh","no scratch VP","scratch veh","scratch VP"), labels = c("No Scratch\n vehicle","No Scratch\n VP", "Scratch\n vehicle", "Scratch\n VP"))
+
+#bottom left top right margins, 3 columns of plots, and margins for the x axis labels. 
+par(mai=c(0.4,0.40,0.2,0.2) +0.2, xpd = TRUE, mfrow = c(1,3),mgp = c(3,1.5,0))
+
+f <- ordered(scrPCR$Group,levels = c("no scratch veh","no scratch VP","scratch veh","scratch VP"), labels = c("No Scratch\n vehicle","No Scratch\n VP", "Scratch\n vehicle", "Scratch\n VP"))
+
+#bottom left top right margins, extra space on the outer edge, 3 columns of plots, and margins for the x axis labels. 
+par(mai=c(0.3,0.40,0.1,0.2) +0.2, xpd = TRUE, mfrow = c(2,3),mgp = c(3,1.5,0))
+
+boxplot(linYAP ~ f, data =scrPCR,pch = 18, xlab = "", ylab = "YAP expression", col= c("light gray", "white","light gray", "white"), ylim=c(0.4, 2.75), boxwex = 0.6) 
+beeswarm(linYAP ~ f, data =scrPCR, pch = 16, xlab = "", las = 2, ylab = "YAP expression",
+col= c("black","dark grey","black","dark grey"), cex.lab = 0.5, add= TRUE)
+
+boxplot(linWWTR1 ~ f, data =scrPCR,pch = 18, xlab = "",ylab = "WWTR1 expression", col= c("light gray", "white","light gray", "white"), ylim=c(0, 3.75), boxwex = 0.6)
+beeswarm(linWWTR1 ~ f, data =scrPCR, pch = 16, xlab = "", las = 2,ylab = "WWTR1 expression",
+col= c("black","dark grey","black","dark grey"), cex.lab = 0.5, add= TRUE)
+
+boxplot(linMST ~ f, data =scrPCR,pch = 18, xlab = "",ylab = "MST1 expression", col= c("light gray", "white","light gray", "white"), ylim=c(0.3, 1.3), boxwex = 0.6)
+beeswarm(linMST ~ f, data =scrPCR, pch = 16, xlab = "", las = 2, ylab = "MST1 expression",
+col= c("black","dark grey","black","dark grey"), cex.lab = 0.5, add= TRUE)
+
+boxplot(linCYR61 ~ f, data =scrPCR,pch = 18, xlab = "",ylab = "CYR61 expression", col= c("light gray", "white","light gray", "white"), ylim=c(0.3, 3.7), boxwex = 0.6)
+beeswarm(linCYR61 ~ f, data =scrPCR, pch = 16, xlab = "", las = 2,cex.axis=1, ylab = "CYR61 expression",
+col= c("black","dark grey","black","dark grey"), cex.lab = 0.5, add= TRUE)
+
+boxplot(linCTGF.1 ~ f, data =scrPCR,pch = 18, xlab = "",ylab = "CTGF expression", col= c("light gray", "white","light gray", "white"), ylim=c(0.3, 3.7), boxwex = 0.6 )
+beeswarm(linCTGF.1 ~ f, data =scrPCR, pch = 16, xlab = "", las = 2,cex.axis=1, ylab = "CTGF expression",
+col= c("black","dark grey","black","dark grey"), cex.lab = 0.5, add= TRUE)
+
+boxplot(linearBDNF ~ f, data =scrPCR,pch = 18, xlab = "",ylab = "BDNF expression", col= c("light gray", "white","light gray", "white"), ylim=c(0.3, 3.2), boxwex = 0.6)
+beeswarm(linearBDNF ~ f, data =scrPCR, pch = 16, xlab = "", las = 2,cex.axis=1, ylab = "BDNF expression",
+col= c("black","dark grey","black","dark grey"), cex.lab = 0.5, add= TRUE)
+
+```
+
+
+
+Bladder weight and residual volume data: 
+```{r}
+library(readr)
+library(beeswarm)
+#stcp file of phys data: provided in github: 
+STCphysandPCR <- read_csv("https://raw.githubusercontent.com/kjaitken/STC_repository/main/github%20datasets/STCphysandPCR.csv")
+
+#remove extraneous columns
+stcp<-STCphysandPCR[,1:26]
+
+#removed one extreme outlier from PBO 7 week group, which had 3ml residual volume in row 25). 
+f <- ordered(interaction(stcp[c(1:24,26:40),]$Group,stcp[c(1:24,26:40),]$weeks),levels = c("SHAM.1wk", "STC.1wk","Incision.1wk", "PBO.1wk","SHAM.7wk", "STC.7wk","Incision.7wk", "PBO.7wk"))
+boxplot(RV ~ f, data =stcp[c(1:24,26:40),],pch = 18, xlab = "",ylab = "Residual volume (mL)", boxwex=0.6 ,col=c("slateblue1","slateblue1","slateblue1","slateblue1","tomato","tomato","tomato","white"),names= c("SHAM 1w", "STC 1w","Incision 1w", "", "Sham 7w", "STC 7w","Incision 7w", "PBO 7w"))
+beeswarm(RV ~ f, data =stcp[c(1:24,26:40),], pch = 16, xlab = "", las = 2,cex.axis=1, ylab = "Residual volume (mL)",names= c("SHAM 1w", "STC 1w","Incision 1w", "", "Sham 7w", "STC 7w","Incision 7w", "PBO 7w"),col= "grey", cex.axis = 0.8, cex.lab = 1.5, add=TRUE)
+
+
+```
+
+```{r}
+
+#bladder mass graph: 
+
+f <- ordered(interaction(stcp$Group,stcp$weeks),
+levels = c("SHAM.1wk", "STC.1wk","Incision.1wk", "PBO.1wk","SHAM.7wk", "STC.7wk","Incision.7wk", "PBO.7wk"))
+par(mar=c(3,4,3,1))
+boxplot(bladder.weight ~ f, data =stcp,pch = 18, xlab = "",ylab = "Bladder mass (g)", boxwex=0.6 ,col=c("slateblue1","slateblue1","slateblue1","slateblue1","tomato","tomato","tomato","white"),names= c("SHAM 1w", "STC 1w","Incision 1w", "", "Sham 7w", "STC 7w","Incision 7w", "PBO 7w"))
+beeswarm(bladder.weight ~ f, data =stcp, pch = 16, xlab = "", las = 2,cex.axis=1, ylab = "Bladder mass (g)",
+names= c("SHAM 1w", "STC 1w","Incision 1w", "", "Sham 7w", "STC 7w","Incision 7w", "PBO 7w"),col= "grey", cex.axis = 0.8, cex.lab = 0.8, add=TRUE)
+
+
+```
+
+```{r}
+#bladder ratio data: 
+
+f <- ordered(interaction(stcp$Group,stcp$weeks),
+levels = c("SHAM.1wk", "STC.1wk","Incision.1wk", "PBO.1wk","SHAM.7wk", "STC.7wk","Incision.7wk", "PBO.7wk"))
+boxplot(ratiobladder ~ f, data =stcp,pch = 18, xlab = "",ylab = "Bladder/body mass ratio", boxwex=0.6 ,col=c("slateblue1","slateblue1","slateblue1","slateblue1","tomato","tomato","tomato","white"),names= c("SHAM 1w", "STC 1w","Incision 1w", "", "Sham 7w", "STC 7w","Incision 7w", "PBO 7w"))
+beeswarm(ratiobladder ~ f, data =stcp, pch = 16, xlab = "", las = 2,cex.axis=1, ylab = "Bladder/body mass ratio",
+names= c("SHAM 1w", "STC 1w","Incision 1w", "", "Sham 7w", "STC 7w","Incision 7w", "PBO 7w"),col= "grey", cex.axis = 0.8, cex.lab = 0.8, add=TRUE)
+
+```
+PCR in vivo data: 
+
+```{r}
+
+ 
+View(stcp)
+
+f <- ordered(interaction(stcp$Group,stcp$weeks), 
+          levels = c("SHAM.1wk", "STC.1wk","Incision.1wk", "PBO.1wk","SHAM.7wk", "STC.7wk","Incision.7wk", "PBO.7wk"))
+
+library(dplyr)
+#rename column since not easily read in by R
+names(stcp)[20]<-"panBDNFlin"
+
+boxplot(panBDNFlin ~ f, data =stcp, pch = 18, log = "y", xlab = "",ylab = "panBDNF Expression",boxwex=0.6,col=c("slateblue1","slateblue1","slateblue1","slateblue1","tomato","tomato","tomato","white"),alpha = 0.5, names= c("SHAM 1w", "STC 1w","Incision 1w", "", "Sham 7w", "STC 7w","Incision 7w", "PBO 7w"))
+beeswarm(panBDNFlin ~ f, data =stcp, pch = 16, xlab = "", las = 2,cex.axis=1, ylab = "panBDNF Expression", names= c("SHAM 1w", "STC 1w","Incision 1w", "", "Sham 7w", "STC 7w","Incision 7w", "PBO 7w"),col= "grey", cex.axis = 0.8, cex.lab = 0.8, add=TRUE)
+
+boxplot(bdnf.var1 ~ f, data =stcp, pch = 18, log = "y", xlab = "",ylab = "panBDNF Expression", boxwex=0.6 ,col=c("slateblue1","slateblue1","slateblue1","slateblue1","tomato","tomato","tomato","white"),alpha = 0.5, names= c("SHAM 1w", "STC 1w","Incision 1w", "", "Sham 7w", "STC 7w","Incision 7w", "PBO 7w"))
+beeswarm(bdnf.var1 ~ f, data =stcp, pch = 16, xlab = "", las = 2,cex.axis=1, ylab = "panBDNF Expression", names= c("SHAM 1w", "STC 1w","Incision 1w", "", "Sham 7w", "STC 7w","Incision 7w", "PBO 7w"),col= "grey", cex.axis = 0.8, cex.lab = 0.8, add=TRUE)
+
+
+boxplot(TrkBT1lin ~ f, data =stcp,pch = 18, xlab = "", ylab = "TRKB T1 Expression", boxwex=0.6 ,col=c("slateblue1","slateblue1","slateblue1","slateblue1","tomato","tomato","tomato","white"),alpha = 0.5, names= c("SHAM 1w", "STC 1w","Incision 1w", "", "Sham 7w", "STC 7w","Incision 7w", "PBO 7w"))
+beeswarm(TrkBT1lin ~ f, data =stcp, pch = 16, xlab = "", las = 2,cex.axis=1, ylab = "TRKB T1 Expression", names= c("SHAM 1w", "STC 1w","Incision 1w", "", "Sham 7w", "STC 7w","Incision 7w", "PBO 7w"),col= "grey", cex.axis = 0.8, cex.lab = 0.8, add=TRUE)
+
+boxplot(bdnfvar5linear ~ f, data =stcp, log="y", pch = 18, xlab = "",ylab = "BDNF var5 Expression", boxwex=0.6 ,col=c("slateblue1","slateblue1","slateblue1","slateblue1","tomato","tomato","tomato","white"),alpha = 0.5, names= c("SHAM 1w", "STC 1w","Incision 1w", "", "Sham 7w", "STC 7w","Incision 7w", "PBO 7w"))
+beeswarm(bdnfvar5linear ~ f, data =stcp, pch = 16, xlab = "", las = 2,cex.axis=1, ylab = "BDNF var5 Expression", names= c("SHAM 1w", "STC 1w","Incision 1w", "", "Sham 7w", "STC 7w","Incision 7w", "PBO 7w"),col= "grey", cex.axis = 0.8, cex.lab = 0.8, add=TRUE)
+
+f <- ordered(interaction(stcp[c(1:23,25:41),]$Group,stcp[c(1:23,25:41),]$weeks), levels = c("SHAM.1wk", "STC.1wk","Incision.1wk", "PBO.1wk","SHAM.7wk", "STC.7wk","Incision.7wk", "PBO.7wk"))
+
+boxplot(CTGFlinear ~ f, data =stcp[c(1:23,25:41),],pch = 18, xlab = "", ylab = "CTGF Expression", boxwex=0.6 ,col=c("slateblue1","slateblue1","slateblue1","slateblue1","tomato","tomato","tomato","white"),alpha = 0.5, names= c("SHAM 1w", "STC 1w","Incision 1w", "", "Sham 7w", "STC 7w","Incision 7w", "PBO 7w"))
+beeswarm(CTGFlinear ~ f, data =stcp[c(1:23,25:41),], pch = 16, xlab = "", las = 2,cex.axis=1, ylab = "CTGF Expression", names= c("SHAM 1w", "STC 1w","Incision 1w", "", "Sham 7w", "STC 7w","Incision 7w", "PBO 7w"),col= "grey", cex.axis = 0.8, cex.lab = 0.8, add=TRUE)
+
+#Cyr61 data in separate file.
+PCR_sheets_in_vivo<-read_csv("https://raw.githubusercontent.com/kjaitken/STC_repository/main/github%20datasets/PCR_sheets_in_vivo.csv")
+
+stcp1<-PCR_sheets_in_vivo 
+f <- ordered(interaction(stcp1$Group,stcp1$weeks), levels = c("SHAM.1wk", "STC.1wk","Incision.1wk", "PBO.1wk","SHAM.7wk", "STC.7wk","Incision.7wk", "PBO.7wk"))
+
+boxplot(cyr61lin ~ f, data =stcp1,  pch = 18, xlab = "",ylab = "Cyr61 Expression", boxwex=0.6 ,col=c("slateblue1","slateblue1","slateblue1","slateblue1","tomato","tomato","tomato","white"),ylim = c(0,6), names= c("SHAM 1w", "STC 1w","Incision 1w", "", "Sham 7w", "STC 7w","Incision 7w", "PBO 7w"))
+beeswarm(cyr61lin ~ f, data =stcp1, pch = 16, xlab = "", las = 2,cex.axis=1, ylab = "Cyr61 Expression", names= c("SHAM 1w", "STC 1w","Incision 1w", "", "Sham 7w", "STC 7w","Incision 7w", "PBO 7w"),col= "grey", cex.axis = 0.8, cex.lab = 0.8, add = TRUE)
+
+
+```
+
+Cell Migration data
+```{r}
+
+library(beeswarm)
+library(readr)
+
+#upload data from github: 
+mn <-read_csv("https://raw.githubusercontent.com/kjaitken/STC_repository/main/github%20datasets/mn.csv")
+
+f <- ordered(interaction(mn$GF,mn$inhibition),levels = c("veh.veh","BDNF_high.veh","CTGF.veh","CYR61.veh","veh.VP","BDNF_high.VP","CTGF.VP","CYR61.VP"))
+
+boxplot(percent.change.area ~ f, data =mn,pch = 16, xlab = "", cex.axis=.6, ylab = "% Change in Area",col=c("white","purple","lightblue","slateblue1","white","purple","light blue","slateblue1"), ylim = c(0, .5), names = c("vehicle","BDNF","CTGF","CYR61","VP vehicle","VP BDNF","VP CTGF","VP CYR61"))
+#NB: variable number of samples per group in this experiment was due to variability in the scratches. Some attempts at scratches did not work, and had only a tiny dot of cells removed. 
+
+```
+
+
+Nerve density pic analysis: 
+Volocity parameters utilized to identify the cell types based on regions around positive SMC markers, and the nuclei by HOECHST staining. Then the intensity of the nuclear and non-nuclear YAP staining was evaluated for each cell on each slide. Data was exported into a csv for analysis on R. 
+
+```{r }
+library(readr)
+aggr_sample1 <- read_csv("https://raw.githubusercontent.com/kjaitken/STC_repository/main/github%20datasets/aggr_sample1.csv")
+
+View(aggr_sample1)
+
+f <- ordered(aggr_sample1$Group,
+levels = c("sham", "STC7week","incisioncontrol"))
+boxplot(nervefr ~ f, data =aggr_sample1,pch = 18, xlab = "",ylab = "Nerve Density", boxwex=0.6 ,col=c("lightblue","slateblue1","white"),names= c("SHAM", "STC","Incision"))
+
+```
+
+```{r}
+#Non-SMC region nerves
+#provide a github link to the data
+library(readr)
+# load data from github
+aggr_sample <- read_csv("https://raw.githubusercontent.com/kjaitken/STC_repository/main/github%20datasets/aggr_sample.csv")
+
+#STC sample in first row is a high outlier with value >15000, and is left out.
+f <- ordered(aggr_sample[2:19,]$Group,levels = c("sham", "STC7weeks","incisioncontrol"))
+boxplot(nervefr ~ f, data =aggr_sample[2:19,],pch = 18, xlab = "",ylab = "Nerve Density", boxwex=0.6 ,col=c("lightblue","slateblue1","white"),names= c("SHAM", "STC","Incision"))
+
+
+
+```
+
