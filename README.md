@@ -2,7 +2,7 @@
 <img mg align="right" src="https://user-images.githubusercontent.com/13381429/234910208-41cf9df3-f32d-4db4-bd84-c43ef7a33257.jpg" width=20% height=20%>
 
 #This is the minimal data and code for the STC project on bladder regeneration. It is a work in progress. 
-#The minimal data for the plots are loaded in the github datasets (https://github.com/kjaitken/STC_repository/tree/main/github%20datasets) folder. 
+#The minimal data for the plots are loaded in the github datasets folder (https://github.com/kjaitken/STC_repository/tree/main/github%20datasets) folder. 
 
 #The code for plotting is available in the STC markdown pdf or html files, or as the R markdown (STC_minimal_data_and_markdown.Rmd). 
 
