@@ -32,7 +32,7 @@ stats_4.2.2
 
 
 ```{r}
-#Fig 1b
+#Fig 1b: analysis of the nuclear intensities in a scratch wound. 
 library(beeswarm)
 library(RColorBrewer)
 library(readr)
@@ -51,7 +51,7 @@ beeswarm(nucl.intens_per_well ~ f, data =yapscr, pch = 16, xlab = "", las = 2,ce
 
 
 ```{r}
-#fig 1D and E composite
+#fig 1D and E composite: PCR from scratch-wounded human bladder smooth muscle cells
 
 #upload data from github: 
 scrPCR <- read_csv("https://raw.githubusercontent.com/kjaitken/STC_repository/main/github%20datasets/scrPCR.csv")
