@@ -6,6 +6,8 @@ The minimal data for the plots are loaded in the github datasets folder (https:/
 
 The code for plotting is available in the STC markdown STC markdown.pdf, STC markdown.html files or as the R markdown (STC_minimal_data_and_markdown.Rmd). 
 
+Video of SMC migration during in vitro scratch wound and ex vivo STC is provided in the Supplemental Videos (S1-S5 in the STC paper). 
+
 Detailed statistical analysis methods will be loaded later in future folders, but the minimal data in the csv's is sufficient to analyse the data. In brief, analysis of variance was performed using a linear model, and attention was paid to the normalcy or distribution of the data. Subsequent t.tests were performed as required, as either a Student's, kruskal's or welch's depending on the normalcy and variance. 
 
 
